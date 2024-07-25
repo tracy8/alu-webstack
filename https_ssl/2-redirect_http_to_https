@@ -33,19 +33,19 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-frontend  oreste-frontend-http
+frontend  tracy-frontend-http
         bind *:80
         mode http
 	http-request redirect scheme https code 301 unless { ssl_fc }
 	http-request set-header X-Forwarded-Proto http
-        default_backend oreste-backend
+        default_backend tracy-backend
 
-frontend oreste-frontend-https
-	bind *:443 ssl crt /etc/haproxy/certs/www.abizeraoreste.tech.pem
+frontend tracy-frontend-https
+	bind *:443 ssl crt /etc/haproxy/certs/www.tracymurenzi.tech.pem
 	http-request set-header X-Forwarded-Proto https
-	default_backend oreste-backend
+	default_backend tracy-backend
 
-backend oreste-backend
+backend tracy-backend
         balance roundrobin
-        server 6238-web-01 54.196.216.8:80 check
-        server 6238-web-02 98.80.15.59:80 check
+        server 6167-web-01 54.197.2.229:80 check
+        server 6167-web-02 174.129.174.243:80 check
