@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Bash script to display information about subdomains
+
+dns_config () {
+    # Use dig to fetch DNS record, extract relevant information, and format the output
+    record_info=$(dig "$2"."$1" +short)
+    if [[ -n "$record_info" ]]; then
+        echo "The subdomain $2 is a A record and points to $record_info"
+    else
+        echo "No record found for subdomain $2.$1"
+    fi
+}
+
+# Check number of arguments and call dns_config accordingly
+if [[ "$#" -eq 1 ]]; then
+    for sub in www lb-01 web-01 web-02; do
+        dns_config "$1" "$sub"
+    done
+elif [[ "$#" -eq 2 ]]; then
+    dns_config "$1" "$2"
+else
+    echo "Usage: $0 domain [subdomain]"
+    exit 1
+fi
